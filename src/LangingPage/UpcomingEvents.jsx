@@ -1,27 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-const eventsData = Array.from({ length: 12 }, (_, i) => ({
-  id: i + 1,
-  title: `Tech Event ${i + 1}.0`,
-  description: `Technical Presentation Event for all students. Join us for session ${i + 1} to learn about new technologies.`,
-  buttonText: i % 3 === 0 ? null : "Register Now",
-  type: i % 2 === 0 ? "primary" : "secondary",
-}));
+const API_URL = "http://localhost:3000/api/upcoming-events";
+    const response = await fetch(API_URL);
+    const UPCOMING_EVENTS = await response.json();
 
 export default function UpcomingEvents() {
-  const [registeredIds, setRegisteredIds] = useState(() => {
-    const saved = localStorage.getItem("userRegistrations");
-    return saved ? JSON.parse(saved) : [];
-  });
-
   const navigate = useNavigate();
-
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef(null);
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
+  // Intersection Observer for the Entrance Animation
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -31,20 +22,16 @@ export default function UpcomingEvents() {
     );
 
     if (sectionRef.current) observer.observe(sectionRef.current);
-
     return () => {
       if (sectionRef.current) observer.unobserve(sectionRef.current);
     };
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("userRegistrations", JSON.stringify(registeredIds));
-  }, [registeredIds]);
-
+  // Pagination Logic
   const cardsPerPage = 4;
   const pages = [];
-  for (let i = 0; i < eventsData.length; i += cardsPerPage) {
-    pages.push(eventsData.slice(i, i + cardsPerPage));
+  for (let i = 0; i < UPCOMING_EVENTS.length; i += cardsPerPage) {
+    pages.push(UPCOMING_EVENTS.slice(i, i + cardsPerPage));
   }
 
   const handleScroll = () => {
@@ -84,6 +71,7 @@ export default function UpcomingEvents() {
       </div>
 
       <div className="relative max-w-7xl mx-auto w-full flex-1 group/slider">
+        {/* Navigation Arrows */}
         {pages.length > 1 && (
           <>
             <button
@@ -116,6 +104,7 @@ export default function UpcomingEvents() {
           </>
         )}
 
+        {/* Horizontal Scroll Container */}
         <div
           ref={scrollRef}
           onScroll={handleScroll}
@@ -141,29 +130,26 @@ export default function UpcomingEvents() {
                     `}
                     style={{ transitionDelay: `${index * 100}ms` }}
                   >
-                    {/* Image */}
+                    {/* Image Placeholder */}
                     <div className="w-full sm:w-2/5 aspect-[4/3] sm:aspect-auto bg-[#023347] relative overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-br from-[#023347] to-[#011d2b] transition-transform duration-700 ease-out group-hover/card:scale-110 flex items-center justify-center">
-                        <span className="text-white/20 font-bold text-4xl tracking-tighter">
-                          EVENT
-                        </span>
+                        <img src={event.brochure_url} alt="" />
                       </div>
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-60"></div>
                     </div>
 
-                    {/* Content */}
+                    {/* Content Section */}
                     <div className="p-8 flex flex-col justify-between flex-1 relative z-10 bg-white">
                       <div>
                         <h3 className="text-2xl font-bold text-[#023347] mb-3 leading-tight transition-colors duration-300 group-hover/card:text-[#388E9C]">
-                          {event.title}
+                          {event.event_title}
                         </h3>
-
                         <p className="text-sm text-[#3C3E40] leading-relaxed line-clamp-3 opacity-80 group-hover/card:opacity-100 transition-opacity">
-                          {event.description}
+                          {event.event_short_description}
                         </p>
                       </div>
 
-                      {/* Buttons */}
+                      {/* Action Buttons */}
                       <div className="mt-6 flex gap-4">
                         <button
                           onClick={() => navigate("/event-register")}
@@ -171,7 +157,6 @@ export default function UpcomingEvents() {
                         >
                           View Details
                         </button>
-
                         <button
                           className="w-[140px] h-[44px] bg-[#023347] text-white rounded-lg text-sm font-semibold shadow-md hover:shadow-lg hover:bg-[#388E9C] transition-all"
                         >

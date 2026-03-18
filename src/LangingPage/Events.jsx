@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
+
+
+
 const activities = [
   {
     img: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80',
