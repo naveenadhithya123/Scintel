@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import AdminSidebar from "./AdminSidebar";
 
 const suggestions = [
@@ -45,11 +44,9 @@ const suggestions = [
 ];
 
 export default function SuggestionAdmin() {
-
   const [selectedItem, setSelectedItem] = useState(null);
 
   return (
-
     <div
       style={{
         display: "flex",
@@ -58,21 +55,121 @@ export default function SuggestionAdmin() {
         fontFamily: "'Segoe UI', sans-serif",
       }}
     >
+      <style>{`
+        /* ── Desktop table ── */
+        .sg-header-row {
+          display: grid;
+          grid-template-columns: 2fr 1fr 2fr 1fr 1.5fr;
+          padding: 11px 24px;
+          color: #3C3E40;
+          font-size: 13px;
+        }
+        .sg-data-row {
+          display: grid;
+          grid-template-columns: 2fr 1fr 2fr 1fr 1.5fr;
+          padding: 18px 24px;
+          align-items: center;
+          font-size: 13px;
+        }
+
+        /* Mobile cards hidden on desktop */
+        .sg-cards { display: none; }
+
+        /* Detail buttons */
+        .sg-detail-btns {
+          display: flex;
+          justify-content: flex-end;
+          gap: 12px;
+          margin-top: 40px;
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 700px) {
+          .sg-main { padding: 20px 14px !important; }
+
+          /* Hide desktop layout */
+          .sg-desktop-header { display: none !important; }
+          .sg-data-row       { display: none !important; }
+
+          /* Show cards */
+          .sg-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+          }
+
+          .sg-card {
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #e2e8ec;
+            box-shadow: 0 1px 4px rgba(2,51,71,0.07);
+            padding: 16px;
+            overflow: hidden;
+          }
+
+          /* Title bar at top of card */
+          .sg-card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #023347;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f4f5;
+          }
+
+          /* Each info row: label left, value right */
+          .sg-card-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            padding: 5px 0;
+            border-bottom: 1px solid #f9fafb;
+          }
+          .sg-card-row:last-of-type { border-bottom: none; }
+
+          .sg-card-label {
+            font-weight: 600;
+            color: #374151;
+            min-width: 80px;
+            flex-shrink: 0;
+          }
+
+          .sg-card-value {
+            color: #4b5563;
+            text-align: right;
+            word-break: break-word;
+          }
+
+          /* Action button */
+          .sg-card-action {
+            margin-top: 14px;
+          }
+          .sg-card-action button {
+            width: 100%;
+            padding: 10px;
+            font-size: 13px;
+          }
+
+          /* Detail page */
+          .sg-detail-btns {
+            flex-direction: column !important;
+          }
+          .sg-detail-btns button {
+            width: 100% !important;
+          }
+        }
+      `}</style>
 
       {/* SIDEBAR */}
       <AdminSidebar />
 
       {/* MAIN CONTENT */}
       <main
-        style={{
-          flex: 1,
-          padding: "28px 36px",
-          overflowY: "auto",
-        }}
+        className="sg-main"
+        style={{ flex: 1, padding: "28px 36px", overflowY: "auto" }}
       >
-
         {selectedItem === null ? (
-
           <>
             <h1
               style={{
@@ -86,8 +183,9 @@ export default function SuggestionAdmin() {
               Suggestions / Complaints
             </h1>
 
-            {/* Table Header */}
+            {/* ── Desktop header ── */}
             <div
+              className="sg-desktop-header"
               style={{
                 backgroundColor: "#FFFFFF",
                 borderRadius: "12px",
@@ -95,15 +193,7 @@ export default function SuggestionAdmin() {
                 marginBottom: "12px",
               }}
             >
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "2fr 1fr 2fr 1fr 1.5fr",
-                  padding: "11px 24px",
-                  color: "#3C3E40",
-                  fontSize: "13px",
-                }}
-              >
+              <div className="sg-header-row">
                 <div>Title</div>
                 <div style={{ textAlign: "center" }}>Category</div>
                 <div style={{ textAlign: "center" }}>Name</div>
@@ -112,10 +202,9 @@ export default function SuggestionAdmin() {
               </div>
             </div>
 
-            {/* Rows */}
+            {/* ── Desktop rows ── */}
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               {suggestions.map((item, idx) => (
-
                 <div
                   key={idx}
                   style={{
@@ -125,33 +214,19 @@ export default function SuggestionAdmin() {
                     boxShadow: "0 1px 4px rgba(2,51,71,0.07)",
                   }}
                 >
-
-                  <div
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "2fr 1fr 2fr 1fr 1.5fr",
-                      padding: "18px 24px",
-                      alignItems: "center",
-                      fontSize: "13px",
-                    }}
-                  >
-
+                  <div className="sg-data-row">
                     <div style={{ color: "#000000", fontWeight: 700 }}>
                       {item.title}
                     </div>
-
                     <div style={{ color: "#3C3E40", textAlign: "center" }}>
                       {item.category}
                     </div>
-
                     <div style={{ color: "#3C3E40", textAlign: "center" }}>
                       {item.name}
                     </div>
-
                     <div style={{ color: "#3C3E40", textAlign: "center" }}>
                       {item.year}
                     </div>
-
                     <div style={{ display: "flex", justifyContent: "center" }}>
                       <button
                         onClick={() => setSelectedItem(item)}
@@ -169,19 +244,51 @@ export default function SuggestionAdmin() {
                         View Detail
                       </button>
                     </div>
-
                   </div>
-
                 </div>
+              ))}
+            </div>
 
+            {/* ── Mobile cards ── */}
+            <div className="sg-cards">
+              {suggestions.map((item, idx) => (
+                <div key={idx} className="sg-card">
+                  <div className="sg-card-title">{item.title}</div>
+                  <div className="sg-card-row">
+                    <span className="sg-card-label">Category</span>
+                    <span className="sg-card-value">{item.category}</span>
+                  </div>
+                  <div className="sg-card-row">
+                    <span className="sg-card-label">Name</span>
+                    <span className="sg-card-value">{item.name}</span>
+                  </div>
+                  <div className="sg-card-row">
+                    <span className="sg-card-label">Year</span>
+                    <span className="sg-card-value">{item.year}</span>
+                  </div>
+                  <div className="sg-card-action">
+                    <button
+                      onClick={() => setSelectedItem(item)}
+                      style={{
+                        backgroundColor: "#023347",
+                        color: "#ffffff",
+                        fontWeight: 600,
+                        borderRadius: "10px",
+                        border: "none",
+                        cursor: "pointer",
+                        fontFamily: "inherit",
+                      }}
+                    >
+                      View Detail
+                    </button>
+                  </div>
+                </div>
               ))}
             </div>
           </>
 
         ) : (
-
-          /* DETAIL PAGE */
-
+          /* ── DETAIL PAGE ── */
           <>
             <h1
               style={{
@@ -203,11 +310,9 @@ export default function SuggestionAdmin() {
                 padding: "28px 32px",
               }}
             >
-
               <h2 style={{ fontSize: "16px", fontWeight: 700 }}>
                 {selectedItem.title}
               </h2>
-
               <p
                 style={{
                   color: "#3C3E40",
@@ -219,15 +324,7 @@ export default function SuggestionAdmin() {
                 {selectedItem.description}
               </p>
 
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  gap: "12px",
-                  marginTop: "40px",
-                }}
-              >
-
+              <div className="sg-detail-btns">
                 <button
                   onClick={() => setSelectedItem(null)}
                   style={{
@@ -243,7 +340,6 @@ export default function SuggestionAdmin() {
                 >
                   Back
                 </button>
-
                 <button
                   style={{
                     backgroundColor: "#2A8E9E",
@@ -258,16 +354,11 @@ export default function SuggestionAdmin() {
                 >
                   Accept
                 </button>
-
               </div>
-
             </div>
-
           </>
         )}
-
       </main>
-
     </div>
   );
 }

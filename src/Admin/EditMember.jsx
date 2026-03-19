@@ -1,85 +1,175 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import AdminSidebar from "./AdminSidebar";
 
 export default function EditMember() {
-
   const navigate = useNavigate();
+  const location = useLocation();
+  const index = location.state?.index;
+
+  const [form, setForm] = useState({ name: "", reg: "", role: "", year: "" });
+
+  // ✅ LOAD SELECTED MEMBER
+  useEffect(() => {
+    const members = JSON.parse(localStorage.getItem("members")) || [];
+    if (index !== undefined && members[index]) {
+      setForm(members[index]);
+    }
+  }, [index]);
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // ✅ SAVE UPDATED MEMBER
+  const handleSave = () => {
+    const members = JSON.parse(localStorage.getItem("members")) || [];
+    if (index !== undefined) {
+      members[index] = form;
+      localStorage.setItem("members", JSON.stringify(members));
+    }
+    navigate("/edit-batch");
+  };
+
+  const inputStyle = {
+    width: "100%",
+    border: "1px solid #d1d5db",
+    borderRadius: 8,
+    padding: "12px",
+    fontSize: 14,
+    fontFamily: "inherit",
+    outline: "none",
+    boxSizing: "border-box",
+    color: "#111827",
+  };
+
+  const labelStyle = {
+    display: "block",
+    color: "#4b5563",
+    marginBottom: 8,
+    fontSize: 14,
+  };
 
   return (
+    <AdminSidebar>
+      <style>{`
+        .em-form-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 32px 48px;
+          max-width: 900px;
+        }
+        .em-btn-row {
+          margin-top: auto;
+          display: flex;
+          justify-content: flex-end;
+          gap: 16px;
+          padding-top: 48px;
+        }
+        @media (max-width: 640px) {
+          .em-form-grid {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+          }
+          .em-btn-row {
+            flex-direction: column !important;
+            padding-top: 32px;
+          }
+          .em-btn-row button {
+            width: 100% !important;
+          }
+          .em-main-pad {
+            padding: 20px 16px !important;
+          }
+        }
+      `}</style>
 
-    <div className="flex h-screen bg-[#f4f7f9]">  
-
-      {/* Sidebar */}
-      <AdminSidebar />
-
-      {/* Main Content */}
-      <div className="flex-1 p-10 flex flex-col">
-
-        <h1 className="text-2xl font-semibold text-gray-800 mb-12">
+      <div
+        className="em-main-pad"
+        style={{ flex: 1, padding: "40px", display: "flex", flexDirection: "column", overflowY: "auto" }}
+      >
+        <h1 style={{ fontSize: 22, fontWeight: 600, color: "#1f2937", marginBottom: 48 }}>
           Edit Member
         </h1>
- {/* FORM */}
-        <div className="grid grid-cols-2 gap-x-12 gap-y-8 max-w-5xl">
 
-          {/* NAME */}
+        {/* FORM */}
+        <div className="em-form-grid">
+
           <div>
-            <label className="block text-gray-600 mb-2">Name</label>
+            <label style={labelStyle}>Name</label>
             <input
+              name="name"
+              value={form.name}
+              onChange={handleChange}
               type="text"
-              className="w-full border border-gray-300 rounded-lg p-3"
+              style={inputStyle}
             />
           </div>
 
-          {/* REGISTER NUMBER */}
           <div>
-            <label className="block text-gray-600 mb-2 ml-43">Register Number</label>
+            <label style={labelStyle}>Register Number</label>
             <input
+              name="reg"
+              value={form.reg}
+              onChange={handleChange}
               type="text"
-              className="w-full border border-gray-300 rounded-lg p-3 ml-43"
+              style={inputStyle}
             />
           </div>
 
-          {/* ROLE */}
           <div>
-            <label className="block text-gray-600 mb-2">Role</label>
+            <label style={labelStyle}>Role</label>
             <input
+              name="role"
+              value={form.role}
+              onChange={handleChange}
               type="text"
-              className="w-full border border-gray-300 rounded-lg p-3"
+              style={inputStyle}
             />
           </div>
 
-          {/* YEAR */}
           <div>
-            <label className="block text-gray-600 mb-2 ml-43">Year</label>
+            <label style={labelStyle}>Year</label>
             <input
+              name="year"
+              value={form.year}
+              onChange={handleChange}
               type="text"
-              className="w-full border border-gray-300 rounded-lg p-3 ml-43"
+              style={inputStyle}
             />
           </div>
 
         </div>
 
-        {/* Buttons */}
-     <div className="mt-auto flex justify-end gap-4">
+        {/* BUTTONS */}
+        <div className="em-btn-row">
           <button
             onClick={() => navigate(-1)}
-            className="bg-[#023347] text-white px-6 py-2 rounded-lg"
+            style={{
+              background: "#023347", color: "#fff",
+              padding: "9px 24px", borderRadius: 8,
+              border: "none", fontWeight: 600,
+              fontSize: 14, cursor: "pointer",
+              fontFamily: "inherit",
+            }}
           >
             Cancel
           </button>
-
           <button
-            className="bg-[#023347] text-white px-6 py-2 rounded-lg"
+            onClick={handleSave}
+            style={{
+              background: "#023347", color: "#fff",
+              padding: "9px 24px", borderRadius: 8,
+              border: "none", fontWeight: 600,
+              fontSize: 14, cursor: "pointer",
+              fontFamily: "inherit",
+            }}
           >
             Save
           </button>
-
         </div>
 
       </div>
-
-    </div>
-
+    </AdminSidebar>
   );
 }

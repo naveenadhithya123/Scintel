@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AdminSidebar from './AdminSidebar';
 
@@ -172,118 +171,89 @@ export default function Activities() {
 
   const existingYears = rows.map(r => r.year);
 
-return (
+  return (
+    <AdminSidebar>
+      <div className="flex-1 p-10 overflow-y-auto">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-semibold text-gray-800">
+            Activities
+          </h1>
 
-  <div className="flex h-screen bg-[#f4f7f9]">
+          <button
+            onClick={() => setShowAddYear(true)}
+            className="bg-[#083A4B] text-white px-5 py-2 rounded-lg"
+          >
+            + Add Year
+          </button>
+        </div>
 
-    {/* SIDEBAR */}
-    <AdminSidebar />
-
-    {/* MAIN CONTENT */}
-    <div className="flex-1 p-10 overflow-y-auto">
-
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-
-        <h1 className="text-2xl font-semibold text-gray-800">
-          Activities
-        </h1>
-
-        <button
-          onClick={() => setShowAddYear(true)}
-          className="bg-[#083A4B] text-white px-5 py-2 rounded-lg"
-        >
-          + Add Year
-        </button>
-
-      </div>
-
-      {/* TABLE */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-
-        <table className="w-full">
-
-          {/* Header */}
-          <thead className="bg-[#3DA6B6] text-white">
-
-            <tr>
-              <th className="p-4 text-center">Year</th>
-              <th className="p-4 text-center">No. of Activities</th>
-              <th className="p-4 text-center">Action</th>
-            </tr>
-
-          </thead>
-
-          {/* Body */}
-          <tbody>
-
-            {rows.map((row, idx) => (
-
-              <tr key={row.id} className="border-t hover:bg-gray-50">
-
-                <td className="p-4 text-center text-gray-700">
-                  {row.year}
-                </td>
-
-                <td className="p-4 text-center text-gray-700">
-                  {row.count}
-                </td>
-
-                <td className="p-4">
-
-                  <div className="flex justify-center gap-3">
-
-                    <button
-                      onClick={() => navigate(`/activities/${row.year}`)}
-                      className="bg-[#083A4B] text-white px-5 py-2 rounded-lg"
-                    >
-                      Edit
-                    </button>
-
-                    <button
-                      onClick={() => setDeleteId(row.id)}
-                      className="bg-[#083A4B] text-white px-5 py-2 rounded-lg"
-                    >
-                      Delete
-                    </button>
-
-                  </div>
-
-                </td>
-
+        {/* TABLE */}
+        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <table className="w-full">
+            {/* Header */}
+            <thead className="bg-[#3DA6B6] text-white">
+              <tr>
+                <th className="p-4 text-center">Year</th>
+                <th className="p-4 text-center">No. of Activities</th>
+                <th className="p-4 text-center">Action</th>
               </tr>
+            </thead>
 
-            ))}
+            {/* Body */}
+            <tbody>
+              {rows.map((row, idx) => (
+                <tr key={row.id} className="border-t hover:bg-gray-50">
+                  <td className="p-4 text-center text-gray-700">
+                    {row.year}
+                  </td>
+                  <td className="p-4 text-center text-gray-700">
+                    {row.count}
+                  </td>
+                  <td className="p-4">
+                    <div className="flex justify-center gap-3">
+                      {/* This button triggers the navigation to the grid page */}
+                    <button
+  onClick={() => navigate(`/admin/activities/${row.year}`)}  
+  className="bg-[#083A4B] text-white px-5 py-2 rounded-lg"
+>
+  Edit
+</button>
 
-          </tbody>
-
-        </table>
-
+                      <button
+                        onClick={() => setDeleteId(row.id)}
+                        className="bg-[#083A4B] text-white px-5 py-2 rounded-lg"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-    </div>
+      {/* MODALS */}
+      <DeleteModal
+        open={deleteId !== null}
+        onConfirm={() => {
+          setRows(prev => prev.filter(r => r.id !== deleteId));
+          setDeleteId(null);
+        }}
+        onCancel={() => setDeleteId(null)}
+      />
 
-    {/* MODALS */}
-    <DeleteModal
-      open={deleteId !== null}
-      onConfirm={() => {
-        setRows(prev => prev.filter(r => r.id !== deleteId));
-        setDeleteId(null);
-      }}
-      onCancel={() => setDeleteId(null)}
-    />
-
-    <AddYearModal
-      open={showAddYear}
-      existingYears={existingYears}
-      onAdd={year => {
-        setRows(prev => [{ id: Date.now(), year, count: 0 }, ...prev]);
-        setShowAddYear(false);
-      }}
-      onCancel={() => setShowAddYear(false)}
-    />
-
-  </div>
-
-);
+      <AddYearModal
+        open={showAddYear}
+        existingYears={existingYears}
+        onAdd={year => {
+          setRows(prev => [{ id: Date.now(), year, count: 0 }, ...prev]);
+          setShowAddYear(false);
+        }}
+        onCancel={() => setShowAddYear(false)}
+      />
+    </AdminSidebar>
+  );
 }

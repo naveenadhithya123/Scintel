@@ -21,6 +21,7 @@ import Verification from "./Verification";
 import VerificationMentor from "./VerificationMentor";
 import ScrollToTop from "./ScrollToTop";
 import kiotlogo from "./kiot-logo.png";
+import ExecutiveMember from "./ExecutiveMembers";
 
 function Navbar() {
 const location = useLocation();
@@ -128,6 +129,7 @@ function MainPage() {
 return (
 <div>
 <Home />
+<ExecutiveMember />
 <UpcomingEvents />
 <Glories />
 <Contact />
@@ -157,6 +159,7 @@ return (
 <Route path="/contact" element={<Contact />} />
 <Route path="/glories" element={<Glories />} />
 <Route path="/upcoming-events" element={<UpcomingEvents />} />
+<Route path="/Executive-members" element={<ExecutiveMember />} />
 
 
 <Route path="/events" element={<Events />} />

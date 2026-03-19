@@ -14,6 +14,8 @@ import ProblemAdmin from './Admin/ProblemAdmin'
 import ActivitiesAdmin from './Admin/ActivitiesAdmin';
 import GloriesAdmin from './Admin/GloriesAdmin'
 import SuggestionAdmin from './Admin/SuggestionAdmin'
+import EventsGrid from "./Admin/EventsGrid";
+import { AddEvent, EditEvent } from "./Admin/EventPages";
 
 function App() {
   return (
@@ -36,6 +38,11 @@ function App() {
       <Route path="/admin/problems" element={<ProblemAdmin />} />
 
       <Route path="/admin/activities" element={<ActivitiesAdmin />} />
+    <Route path="/admin/activities/:year" element={<EventsGrid />} />
+
+<Route path="/admin/activities/:year/add-event" element={<AddEvent />} />
+
+<Route path="/admin/activities/:year/edit-event/:id" element={<EditEvent />} />
 
       <Route path="/admin/glories" element={<GloriesAdmin />} />
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter, useNavigate, useLocation, useInRouterContext } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 /* =========================================
    SIDEBAR ICONS
@@ -54,28 +54,36 @@ const Message = () => (
   </svg>
 );
 
+const MenuIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <line x1="3" y1="12" x2="21" y2="12"/>
+    <line x1="3" y1="6" x2="21" y2="6"/>
+    <line x1="3" y1="18" x2="21" y2="18"/>
+  </svg>
+);
+
 const CloseIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="18" y1="6" x2="6" y2="18"></line>
-    <line x1="6" y1="6" x2="18" y2="18"></line>
+    <line x1="18" y1="6" x2="6" y2="18"/>
+    <line x1="6" y1="6" x2="18" y2="18"/>
   </svg>
 );
 
 /* =========================================
-   PURE SIDEBAR COMPONENT
+   SIDEBAR LAYOUT WRAPPER
 ========================================= */
-function SidebarOnly() {
+export default function AdminSidebar({ children }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   const items = [
-    { name: "Announcement", path: "/admin", icon: <Megaphone /> },
-    { name: "Activities", path: "/admin/activities", icon: <Calendar /> },
-    { name: "Members", path: "/admin/members", icon: <Users /> },
-    { name: "Glories", path: "/admin/glories", icon: <Trophy /> },
-    { name: "Problems", path: "/admin/problems", icon: <Lightbulb /> },
-    { name: "Suggestion", path: "/admin/suggestion", icon: <Message /> },
+    { name: "Announcement", path: "/admin",            icon: <Megaphone /> },
+    { name: "Activities",   path: "/admin/activities", icon: <Calendar /> },
+    { name: "Members",      path: "/admin/members",    icon: <Users /> },
+    { name: "Glories",      path: "/admin/glories",    icon: <Trophy /> },
+    { name: "Problems",     path: "/admin/problems",   icon: <Lightbulb /> },
+    { name: "Suggestion",   path: "/admin/suggestion", icon: <Message /> },
   ];
 
   const handleNavigation = (path) => {
@@ -83,9 +91,32 @@ function SidebarOnly() {
     navigate(path);
   };
 
+  const isActive = (item) => {
+    const path = location.pathname;
+
+    // Special cases for Members
+    if (item.name === "Members") {
+      return (
+        path.startsWith("/admin/members") ||
+        path.includes("batch") ||
+        path.includes("member")
+      );
+    }
+
+    // /admin (Announcement) must be an EXACT match only
+    // so it doesn't light up on /admin/activities, /admin/members etc.
+    if (item.path === "/admin") {
+      return path === "/admin";
+    }
+
+    // All other items: match if pathname starts with item path
+    return path.startsWith(item.path);
+  };
+
   return (
-    <>
-      {/* Sidebar Overlay for Mobile */}
+    <div className="flex h-screen bg-[#f4f7f9] font-sans overflow-hidden relative">
+
+      {/* Mobile overlay */}
       {isMenuOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-40 lg:hidden"
@@ -93,9 +124,9 @@ function SidebarOnly() {
         />
       )}
 
-      {/* Sidebar Navigation */}
+      {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 h-screen bg-[#023347] text-white flex flex-col shadow-xl transition-transform duration-300 transform lg:relative lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#023347] text-white flex flex-col shadow-xl transition-transform duration-300 transform lg:relative lg:translate-x-0 ${
           isMenuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -108,8 +139,7 @@ function SidebarOnly() {
 
         <nav className="flex flex-col gap-2 px-4 mt-2">
           {items.map((item) => {
-            const active = location.pathname === item.path || (location.pathname === '/' && item.path === '/admin');
-
+            const active = isActive(item);
             return (
               <div
                 key={item.name}
@@ -120,29 +150,28 @@ function SidebarOnly() {
                     : "text-gray-300 hover:bg-[#012535] hover:text-white"
                 }`}
               >
-                <span className={`${active ? "opacity-100" : "opacity-80"}`}>{item.icon}</span>
+                <span className={active ? "opacity-100" : "opacity-80"}>{item.icon}</span>
                 <span className="text-sm font-medium">{item.name}</span>
               </div>
             );
           })}
         </nav>
       </aside>
-    </>
-  );
-}
 
-/* ===== MAIN EXPORT WRAPPER ===== */
-export default function AdminSidebar() {
-  const inRouter = useInRouterContext();
-  
-  // Ensures the sidebar works properly if tested outside of your main app's Router
-  if (!inRouter) {
-    return (
-      <BrowserRouter>
-        <SidebarOnly />
-      </BrowserRouter>
-    );
-  }
-  
-  return <SidebarOnly />;
+      {/* Main content */}
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <header className="lg:hidden bg-white border-b border-gray-200 p-4 flex items-center justify-between">
+          <button onClick={() => setIsMenuOpen(true)} className="text-[#023347]">
+            <MenuIcon />
+          </button>
+          <h1 className="text-lg font-bold text-[#023347]">Admin Portal</h1>
+          <div className="w-6" />
+        </header>
+
+        <main className="flex-1 flex flex-col overflow-hidden bg-[#f4f7f9]">
+          {children}
+        </main>
+      </div>
+    </div>
+  );
 }

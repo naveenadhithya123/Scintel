@@ -1,85 +1,158 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AdminSidebar from "./AdminSidebar";
 
 export default function AddMember() {
-
   const navigate = useNavigate();
 
+  const [form, setForm] = useState({ name: "", reg: "", role: "", year: "" });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleAdd = () => {
+    const existing = JSON.parse(localStorage.getItem("members")) || [];
+    const updated = [...existing, form];
+    localStorage.setItem("members", JSON.stringify(updated));
+    navigate("/edit-batch");
+  };
+
+  const inputStyle = {
+    width: "100%",
+    border: "1px solid #d1d5db",
+    borderRadius: 8,
+    padding: "12px",
+    fontSize: 14,
+    fontFamily: "inherit",
+    outline: "none",
+    boxSizing: "border-box",
+    color: "#111827",
+  };
+
+  const labelStyle = {
+    display: "block",
+    color: "#4b5563",
+    marginBottom: 8,
+    fontSize: 14,
+  };
+
   return (
+    <AdminSidebar>
+      <style>{`
+        /* Form grid: 2 cols on desktop, 1 col on mobile */
+        .am-form-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 32px 48px;
+          max-width: 900px;
+        }
 
-    <div className="flex h-screen bg-[#f4f7f9]">
+        /* Button row */
+        .am-btn-row {
+          margin-top: auto;
+          display: flex;
+          justify-content: flex-end;
+          gap: 16px;
+          padding-top: 48px;
+        }
 
-      {/* SIDEBAR */}
-      <AdminSidebar />
+        @media (max-width: 640px) {
+          .am-form-grid {
+            grid-template-columns: 1fr !important;
+            gap: 20px !important;
+          }
+          .am-btn-row {
+            flex-direction: column !important;
+            padding-top: 32px;
+          }
+          .am-btn-row button {
+            width: 100% !important;
+          }
+          .am-main-pad {
+            padding: 20px 16px !important;
+          }
+        }
+      `}</style>
 
-      {/* MAIN CONTENT */}
-      <div className="flex-1 p-10 flex flex-col overflow-y-auto">
-
-        <h1 className="text-2xl font-semibold text-gray-800 mb-12">
+      <div
+        className="am-main-pad"
+        style={{ flex: 1, padding: "40px", display: "flex", flexDirection: "column", overflowY: "auto" }}
+      >
+        <h1 style={{ fontSize: 22, fontWeight: 600, color: "#1f2937", marginBottom: 48 }}>
           Add Member
         </h1>
 
         {/* FORM */}
-        <div className="grid grid-cols-2 gap-x-12 gap-y-8 max-w-5xl">
+        <div className="am-form-grid">
 
-          {/* NAME */}
           <div>
-            <label className="block text-gray-600 mb-2">Name</label>
+            <label style={labelStyle}>Name</label>
             <input
-              type="text"
-              className="w-full border border-gray-300 rounded-lg p-3"
+              name="name"
+              onChange={handleChange}
+              style={inputStyle}
             />
           </div>
 
-          {/* REGISTER NUMBER */}
           <div>
-            <label className="block text-gray-600 mb-2 ml-43">Register Number</label>
+            <label style={labelStyle}>Register Number</label>
             <input
-              type="text"
-              className="w-full border border-gray-300 rounded-lg p-3 ml-43"
+              name="reg"
+              onChange={handleChange}
+              style={inputStyle}
             />
           </div>
 
-          {/* ROLE */}
           <div>
-            <label className="block text-gray-600 mb-2">Role</label>
+            <label style={labelStyle}>Role</label>
             <input
-              type="text"
-              className="w-full border border-gray-300 rounded-lg p-3"
+              name="role"
+              onChange={handleChange}
+              style={inputStyle}
             />
           </div>
 
-          {/* YEAR */}
           <div>
-            <label className="block text-gray-600 mb-2 ml-43">Year</label>
+            <label style={labelStyle}>Year</label>
             <input
-              type="text"
-              className="w-full border border-gray-300 rounded-lg p-3 ml-43"
+              name="year"
+              onChange={handleChange}
+              style={inputStyle}
             />
           </div>
 
         </div>
 
         {/* BUTTONS */}
-        <div className="mt-auto flex justify-end gap-4">
-
+        <div className="am-btn-row">
           <button
             onClick={() => navigate(-1)}
-            className="bg-[#083A4B] text-white px-6 py-2 rounded-lg"
+            style={{
+              background: "#083A4B", color: "#fff",
+              padding: "9px 24px", borderRadius: 8,
+              border: "none", fontWeight: 600,
+              fontSize: 14, cursor: "pointer",
+              fontFamily: "inherit",
+            }}
           >
             Cancel
           </button>
-
-          <button className="bg-[#083A4B] text-white px-6 py-2 rounded-lg">
+          <button
+            onClick={handleAdd}
+            style={{
+              background: "#083A4B", color: "#fff",
+              padding: "9px 24px", borderRadius: 8,
+              border: "none", fontWeight: 600,
+              fontSize: 14, cursor: "pointer",
+              fontFamily: "inherit",
+            }}
+          >
             Add
           </button>
-
         </div>
 
       </div>
-
-    </div>
-
+    </AdminSidebar>
   );
 }
