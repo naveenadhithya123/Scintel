@@ -11,7 +11,7 @@ import ProblemStatements from "./ProblemStatements";
 import Suggestions from "./Suggestions";
 import Contact from "./Contact";
 import ActPage from "./ActPage";
-import AddProblemStatement from "./AddProblemStatement";
+import AddProblemStatement from "../Admin/AddProblemStatement";
 import CGPACalculator from "./CGPACalculator";
 import Events from "./Events";
 import EventDetails from "./EventDetails";
@@ -21,6 +21,7 @@ import Verification from "./Verification";
 import VerificationMentor from "./VerificationMentor";
 import ScrollToTop from "./ScrollToTop";
 import kiotlogo from "./kiot-logo.png";
+import Activities from "./Events";
 
 function Navbar() {
 const location = useLocation();
@@ -160,14 +161,16 @@ return (
 
 
 <Route path="/events" element={<Events />} />
-<Route path="/event-details" element={<EventDetails />} />
-<Route path="/event-register" element={<EventRegister />} />
+<Route path="/activities/event/:id" element={<EventDetails />} />
+<Route path="/event-register/:id" element={<EventRegister />} />
 
 
 <Route path="/verification" element={<Verification />} />
 <Route path="/verification-mentor" element={<VerificationMentor />} />
 <Route path="/add-problem" element={<AddProblemStatement />} />
-<Route path="/cgpa-calculator" element={<CGPACalculator />} />
+<Route path="/problem-details/:id" element={<CGPACalculator />} />
+
+<Route path="/activities/batch/:batch" element={<Activities />} />
 
 </Routes>
 </div>
