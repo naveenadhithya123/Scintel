@@ -44,7 +44,7 @@ function ProblemStatements() {
           <h2 className={`text-[40px] font-extrabold text-[#023347] transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"}`}>
             Problem Statements
           </h2>
-          <button onClick={() => navigate("/verification")} className="bg-[#023347] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#388E9C] transition-all">
+          <button onClick={() => navigate("/ProblemStatementVerification")} className="bg-[#023347] text-white px-8 py-3 rounded-lg font-semibold hover:bg-[#388E9C] transition-all">
             Add Problem Statement
           </button>
         </div>
