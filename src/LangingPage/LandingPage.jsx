@@ -11,18 +11,19 @@ import ProblemStatements from "./ProblemStatements";
 import Suggestions from "./Suggestions";
 import Contact from "./Contact";
 import ActPage from "./ActPage";
-import AddProblemStatement from "../Admin/AddProblemStatement";
+import AddProblemStatement from "./AddProblemStatement";
 import CGPACalculator from "./CGPACalculator";
 import Events from "./Events";
 import EventDetails from "./EventDetails";
 import EventRegister from "./EventRegister";
 
-import Verification from "./Verification";
+import ProblemStatementVerification from "./ProblemStatementVerification";
 import VerificationMentor from "./VerificationMentor";
 import ScrollToTop from "./ScrollToTop";
 import kiotlogo from "./kiot-logo.png";
 import ExecutiveMember from "./ExecutiveMembers";
 import Activities from "./Events";
+import SuggesstionVerification from "./SuggesstionVerification";
 
 function Navbar() {
 const location = useLocation();
@@ -168,10 +169,11 @@ return (
 <Route path="/event-register/:id" element={<EventRegister />} />
 
 
-<Route path="/verification" element={<Verification />} />
+<Route path="/ProblemStatementVerification" element={<ProblemStatementVerification/>} />
 <Route path="/verification-mentor" element={<VerificationMentor />} />
 <Route path="/add-problem" element={<AddProblemStatement />} />
 <Route path="/problem-details/:id" element={<CGPACalculator />} />
+<Route path="/SuggesstionVerification" element={<SuggesstionVerification />} />
 
 <Route path="/activities/batch/:batch" element={<Activities />} />
 
