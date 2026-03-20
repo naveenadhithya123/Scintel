@@ -1,111 +1,143 @@
 import React, { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function Verification() {
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // ✅ Extract problem_id from navigation state
+  const problem_id = location.state?.problem_id;
+
   const [showOTP, setShowOTP] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone_number: "",
+    year: "",
+    section: "",
+    mentor: ""
+  });
+  
   const inputs = useRef([]);
 
-  const handleVerify = (e) => {
-    e.preventDefault();
-    setShowOTP(true);
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleChange = (e, index) => {
+  const handleVerify = async (e) => {
+    e.preventDefault();
+    try {
+      // ✅ Step 1: Send OTP to user email
+      const response = await fetch("http://localhost:3000/api/send-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: formData.email }),
+      });
+      
+      if (response.ok) {
+        setShowOTP(true);
+      } else {
+        alert("Error sending OTP. Please check your email address.");
+      }
+    } catch (error) {
+      console.error("OTP Error:", error);
+    }
+  };
+
+  const handleOtpChange = (e, index) => {
     if (e.target.value.length === 1 && index < 5) {
       inputs.current[index + 1].focus();
     }
   };
 
-  const handleSubmitOTP = () => {
-    navigate("/"); // 👈 GO BACK TO MAIN PAGE (ProblemStatements section visible)
+  const handleSubmitOTP = async () => {
+    const otpValue = inputs.current.map(input => input.value).join("");
+
+    try {
+      // ✅ Step 2: Verify OTP
+      const verifyRes = await fetch("http://localhost:3000/api/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: formData.email, otp: otpValue }),
+      });
+      const verifyData = await verifyRes.json();
+
+      if (verifyData.verified) {
+        // ✅ Step 3: If verified, save solver details to DB
+        const saveRes = await fetch("http://localhost:3000/api/add-problem-solver-request", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            problem_id: problem_id, // From navigation state
+            name: formData.name,
+            email: formData.email,
+            phone_number: formData.phone_number,
+            year: formData.year,
+            section: formData.section
+          }),
+        });
+
+        if (saveRes.ok) {
+          alert("Success! Statement locked and request submitted.");
+          navigate("/"); 
+        } else {
+          const err = await saveRes.json();
+          alert(err.message || "Failed to save request.");
+        }
+      } else {
+        alert("Invalid OTP code.");
+      }
+    } catch (error) {
+      console.error("Submission Error:", error);
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#F5F9FA] flex items-center justify-center px-6 py-12 relative">
-
-      {/* Verification Card */}
       <div className="w-full max-w-5xl bg-white rounded-2xl shadow-sm p-10 border border-[#E6EFF2]">
-        <h2 className="text-2xl font-semibold text-[#023347] mb-8">
-          Verification
-        </h2>
-
+        <h2 className="text-2xl font-semibold text-[#023347] mb-8">Verification</h2>
         <form onSubmit={handleVerify}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-
             <div>
               <label className="block text-sm text-gray-600 mb-2">Name</label>
-              <input className="w-full border border-[#CFE8EC] rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-[#388E9C]" />
+              <input name="name" required onChange={handleInputChange} className="w-full border border-[#CFE8EC] rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-[#388E9C]" />
             </div>
-
             <div>
               <label className="block text-sm text-gray-600 mb-2">Email</label>
-              <input className="w-full border border-[#CFE8EC] rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-[#388E9C]" />
+              <input name="email" type="email" required onChange={handleInputChange} className="w-full border border-[#CFE8EC] rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-[#388E9C]" />
             </div>
-
             <div>
               <label className="block text-sm text-gray-600 mb-2">Mobile no.</label>
-              <input className="w-full border border-[#CFE8EC] rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-[#388E9C]" />
+              <input name="phone_number" required onChange={handleInputChange} className="w-full border border-[#CFE8EC] rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-[#388E9C]" />
             </div>
-
             <div>
               <label className="block text-sm text-gray-600 mb-2">Year</label>
-              <input className="w-full border border-[#CFE8EC] rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-[#388E9C]" />
+              <input name="year" required onChange={handleInputChange} className="w-full border border-[#CFE8EC] rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-[#388E9C]" />
             </div>
-
             <div>
               <label className="block text-sm text-gray-600 mb-2">Section</label>
-              <input className="w-full border border-[#CFE8EC] rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-[#388E9C]" />
+              <input name="section" required onChange={handleInputChange} className="w-full border border-[#CFE8EC] rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-[#388E9C]" />
             </div>
-
             <div>
               <label className="block text-sm text-gray-600 mb-2">Mentor</label>
-              <input className="w-full border border-[#CFE8EC] rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-[#388E9C]" />
+              <input name="mentor" required onChange={handleInputChange} className="w-full border border-[#CFE8EC] rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-[#388E9C]" />
             </div>
-
           </div>
-
-          <div className="mt-10">
-            <button
-              type="submit"
-              className="w-full bg-[#0B1C3D] text-white py-3 rounded-lg font-semibold hover:bg-[#142d63] transition-all"
-            >
-              Verify
-            </button>
-          </div>
+          <button type="submit" className="mt-10 w-full bg-[#0B1C3D] text-white py-3 rounded-lg font-semibold hover:bg-[#142d63] transition-all">Verify</button>
         </form>
       </div>
 
-      {/* OTP MODAL */}
       {showOTP && (
         <div className="absolute inset-0 flex items-center justify-center">
-
           <div className="absolute inset-0 bg-white/60 backdrop-blur-sm"></div>
-
           <div className="relative w-[500px] h-[360px] bg-white rounded-2xl border border-[#CDE4EC] shadow-xl flex flex-col items-center justify-center px-10">
-
-            <h2 className="text-xl font-semibold text-[#1C2B33] mb-8">
-              Enter OTP
-            </h2>
-
+            <h2 className="text-xl font-semibold text-[#1C2B33] mb-8">Enter OTP</h2>
             <div className="flex gap-4 mb-10">
               {[...Array(6)].map((_, index) => (
-                <input
-                  key={index}
-                  maxLength="1"
-                  ref={(el) => (inputs.current[index] = el)}
-                  onChange={(e) => handleChange(e, index)}
-                  className="w-[50px] h-[50px] border border-[#3A9FBF] rounded-[10px] text-center text-xl outline-none focus:ring-2 focus:ring-[#3A9FBF]"
-                />
+                <input key={index} maxLength="1" ref={(el) => (inputs.current[index] = el)} onChange={(e) => handleOtpChange(e, index)} className="w-[50px] h-[50px] border border-[#3A9FBF] rounded-[10px] text-center text-xl outline-none focus:ring-2 focus:ring-[#3A9FBF]" />
               ))}
             </div>
-
-            <button
-              onClick={handleSubmitOTP}
-              className="w-[440px] h-[50px] bg-[#0B1C3D] text-white rounded-lg text-sm hover:bg-[#142d63] transition-all"
-            >
-              Submit
-            </button>
+            <button onClick={handleSubmitOTP} className="w-full h-[50px] bg-[#0B1C3D] text-white rounded-lg text-sm hover:bg-[#142d63] transition-all">Submit</button>
           </div>
         </div>
       )}
