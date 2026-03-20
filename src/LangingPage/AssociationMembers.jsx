@@ -1,6 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function AssociationMembers() {
+<<<<<<< HEAD
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("2022-23");
+  const batch = batchData[activeTab];
+  
+  const [loaded, setLoaded] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null); 
+  
+=======
   // --- STATE FOR BACKEND DATA ---
   const [batches, setBatches] = useState([]); // List of years/titles (Image 4)
   const [activeTab, setActiveTab] = useState(""); // Selected year (e.g., "2023")
@@ -9,6 +19,7 @@ export default function AssociationMembers() {
 
   // --- UI STATES ---
   const [selectedImage, setSelectedImage] = useState(null);
+>>>>>>> c513c759def982ae61f1703c0d117956dc9c5317
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -73,6 +84,10 @@ export default function AssociationMembers() {
       {/* --- IMAGE LIGHTBOX --- */}
       {selectedImage && (
         <div 
+<<<<<<< HEAD
+          id="members"
+=======
+>>>>>>> c513c759def982ae61f1703c0d117956dc9c5317
           className="fixed inset-0 z-[5000] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 cursor-zoom-out animate-in fade-in duration-300"
           onClick={() => setSelectedImage(null)}
         >
@@ -83,10 +98,45 @@ export default function AssociationMembers() {
       <div ref={sectionRef} id="associationMembers" className="min-h-screen bg-[#F5F9FA] flex flex-col font-sans py-12 relative z-40 select-none">
         
         <div className="px-6 md:px-12 max-w-7xl mx-auto w-full flex flex-col">
+<<<<<<< HEAD
+          
+          {/* Header */}
+          <div className="pb-6 overflow-hidden flex items-center justify-between">
+            <h1 
+              className={`text-[40px] font-extrabold text-[#023347] mb-3 w-fit tracking-tight transform transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                isVisible ? "translate-y-0 opacity-100 blur-0" : "translate-y-20 opacity-0 blur-sm"
+              }`}
+            >
+=======
           <div className="pb-6 overflow-hidden">
             <h1 className={`text-[40px] font-extrabold text-[#023347] mb-3 transform transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"}`}>
+>>>>>>> c513c759def982ae61f1703c0d117956dc9c5317
               Association Members
             </h1>
+
+            <button
+              onClick={() => navigate('/')}
+              className={`flex items-center gap-2 bg-[#023347] text-white px-6 py-2 rounded-xl text-xs font-bold shadow-sm 
+                transition-all duration-300 ease-out
+                hover:bg-[#388E9C] hover:shadow-lg hover:scale-105 active:scale-95
+                transform ${isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"}
+              `}
+              style={{ transitionDuration: "1000ms", transitionTimingFunction: "cubic-bezier(0.22,1,0.36,1)" }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-3.5 h-3.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M19 12H5M5 12l7 7M5 12l7-7" />
+              </svg>
+              Back
+            </button>
           </div>
 
           {/* --- TOP INFO SECTION --- */}
@@ -133,6 +183,23 @@ export default function AssociationMembers() {
               ))}
             </div>
 
+<<<<<<< HEAD
+            {/* SCROLLABLE LIST AREA */}
+            <div key={activeTab} className="flex-1 overflow-y-auto gray-scrollbar p-2 overscroll-auto touch-pan-y"> 
+              {batch.members.map((member, idx) => (
+                <div
+                  key={idx}
+                  className={`group/row relative grid grid-cols-1 md:grid-cols-4 gap-4 px-6 py-4 border-b border-gray-50 items-center rounded-xl 
+                    transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)]
+                    hover:bg-[#F5F9FA] hover:shadow-md hover:-translate-y-1 hover:scale-[1.005] hover:border-gray-200
+                    ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
+                  `}
+                  style={{ transitionDelay: `${idx * 50}ms` }}
+                >
+                  <div className="text-center flex flex-col md:block">
+                    <span className="md:hidden text-[10px] text-[#388E9C] font-bold uppercase mb-1">Name</span>
+                    <span className="text-sm font-semibold text-[#3C3E40] group-hover/row:text-[#023347] transition-colors">{member.name}</span>
+=======
             {/* Table Body */}
             <div className="flex-1 overflow-y-auto gray-scrollbar p-2"> 
               {loading ? (
@@ -152,6 +219,7 @@ export default function AssociationMembers() {
                       <span className="md:hidden text-[10px] text-[#388E9C] font-bold uppercase mb-1">Role</span>
                       <span className="text-sm font-medium text-[#3C3E40] bg-gray-50 px-3 py-1 rounded-full inline-block">{member.role}</span>
                     </div>
+>>>>>>> c513c759def982ae61f1703c0d117956dc9c5317
                   </div>
                 ))
               ) : (

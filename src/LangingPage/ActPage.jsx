@@ -64,13 +64,39 @@ function Activities() {
         className="h-screen bg-[#F5F9FA] flex flex-col font-sans py-12 perspective-[1000px]"
       >
         <div className="px-6 md:px-12 pb-6 max-w-7xl mx-auto w-full flex-none overflow-hidden">
-          <h2 
-            className={`text-[40px] font-extrabold text-[#023347] mb-3 w-fit tracking-tight transform transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-              isVisible ? "translate-y-0 opacity-100 blur-0" : "translate-y-20 opacity-0 blur-sm"
-            }`}
-          >
-            Activities
-          </h2>
+          <div className="flex items-center justify-between">
+            <h2 
+              className={`text-[40px] font-extrabold text-[#023347] mb-3 w-fit tracking-tight transform transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                isVisible ? "translate-y-0 opacity-100 blur-0" : "translate-y-20 opacity-0 blur-sm"
+              }`}
+            >
+              Activities
+            </h2>
+
+            <button
+              onClick={() => navigate("/")}
+              className={`flex items-center gap-2 bg-[#023347] text-white px-6 py-2 rounded-xl text-xs font-bold shadow-sm 
+                transition-all duration-300 ease-out
+                hover:bg-[#388E9C] hover:shadow-lg hover:scale-105 active:scale-95
+                transform ${isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"}
+              `}
+              style={{ transitionDuration: "1000ms", transitionTimingFunction: "cubic-bezier(0.22,1,0.36,1)" }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-3.5 h-3.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M19 12H5M5 12l7 7M5 12l7-7" />
+              </svg>
+              Back
+            </button>
+          </div>
         </div>
 
         <div className="px-6 md:px-12 max-w-7xl mx-auto w-full flex-1 min-h-0">
@@ -111,13 +137,21 @@ function Activities() {
                   <div className="md:col-span-4 flex flex-col md:items-center">
                     <span className="md:hidden text-[10px] font-bold text-[#388E9C] uppercase mb-1 tracking-wider">Action</span>
                     <button
+<<<<<<< HEAD
+                      onClick={() => navigate("/events")}
+=======
                       onClick={() => handleViewDetail(item.batch)}
+>>>>>>> c513c759def982ae61f1703c0d117956dc9c5317
                       className="bg-[#023347] text-white px-6 py-2 rounded-xl text-xs font-bold shadow-sm 
                         transition-all duration-300 ease-out
                         hover:bg-[#388E9C] hover:shadow-lg hover:scale-105 active:scale-95"
                     >
                       View Detail
                     </button>
+<<<<<<< HEAD
+
+=======
+>>>>>>> c513c759def982ae61f1703c0d117956dc9c5317
                   </div>
                 </div>
               ))}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function Suggestions() {
   const navigate = useNavigate();
@@ -13,8 +13,14 @@ function Suggestions() {
   const [proofFile, setProofFile] = useState(null);
   const [errors, setErrors] = useState({});
   const [isShaking, setIsShaking] = useState(false);
+
   const sectionRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setLoaded(true), 100);
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => setIsVisible(entry.isIntersecting), { threshold: 0.1 });
@@ -64,10 +70,12 @@ function Suggestions() {
 
   return (
     <>
-      <style>{`
+       <style>{`
         .gray-scrollbar::-webkit-scrollbar { width: 6px; }
         .gray-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
         .gray-scrollbar::-webkit-scrollbar-thumb { background: #9ca3af !important; border-radius: 10px; }
+        .gray-scrollbar::-webkit-scrollbar-thumb:hover { background: #6b7280 !important; }
+
         @keyframes shake {
           0%, 100% { transform: translateX(0); }
           25% { transform: translateX(-5px); }
@@ -76,12 +84,46 @@ function Suggestions() {
         .animate-shake { animation: shake 0.4s ease-in-out; }
       `}</style>
 
-      <div ref={sectionRef} id='suggestions' className='min-h-screen bg-[#F5F9FA] flex flex-col font-sans py-12'>
+      <div 
+        ref={sectionRef}
+        id='suggestions' 
+        className='min-h-screen bg-[#F5F9FA] flex flex-col font-sans py-12 perspective-[1000px]'
+      >
         <div className='max-w-7xl mx-auto px-6 md:px-12 w-full'>
-          <div className="pb-8 overflow-hidden">
-            <h1 className={`text-[40px] font-extrabold text-[#023347] mb-3 transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"}`}>
+          
+          {/* Header */}
+          <div className="pb-8 overflow-hidden flex items-center justify-between">
+            <h1 
+              className={`text-[40px] font-extrabold text-[#023347] mb-3 w-fit tracking-tight transform transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                isVisible ? "translate-y-0 opacity-100 blur-0" : "translate-y-20 opacity-0 blur-sm"
+              }`}
+            >
               Suggestions / Complaints
             </h1>
+
+            <button
+              onClick={() => navigate('/')}
+              className={`flex items-center gap-2 bg-[#023347] text-white px-6 py-2 rounded-xl text-xs font-bold shadow-sm 
+                transition-all duration-300 ease-out
+                hover:bg-[#388E9C] hover:shadow-lg hover:scale-105 active:scale-95
+                transform ${isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"}
+              `}
+              style={{ transitionDuration: "1000ms", transitionTimingFunction: "cubic-bezier(0.22,1,0.36,1)" }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-3.5 h-3.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M19 12H5M5 12l7 7M5 12l7-7" />
+              </svg>
+              Back
+            </button>
           </div>
 
           <div className={`rounded-3xl bg-white p-8 md:p-10 shadow-sm border border-gray-100 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}>

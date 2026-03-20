@@ -92,8 +92,13 @@ function Glories() {
                 
                 {/* Image Section - PLUS ICON REMOVED */}
                 <div 
+<<<<<<< HEAD
+                   className="w-full aspect-[16/9] overflow-hidden relative cursor-zoom-in"
+                  onClick={() => setSelectedImage(item.img)}
+=======
                   className="w-full h-56 overflow-hidden relative cursor-zoom-in"
                   onClick={() => setSelectedImage(item.image_url)}
+>>>>>>> c513c759def982ae61f1703c0d117956dc9c5317
                 >
                   <img
                     src={item.image_url}
