@@ -87,7 +87,7 @@ export default function AssociationMembers() {
       <div 
         ref={sectionRef} 
         id="associationMembers" 
-        className="min-h-screen bg-[#F5F9FA] flex flex-col font-sans py-12 relative z-40 select-none"
+        className="min-h-screen bg-[#F5F9FA] flex flex-col font-sans py-12  select-none"
       >
         <div className="px-6 md:px-12 max-w-7xl mx-auto w-full flex flex-col">
           

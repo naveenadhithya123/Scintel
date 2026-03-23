@@ -54,7 +54,6 @@ export default function Verification() {
       const result = await response.json();
 
       if (result.verified) {
-        // Pass user details to the next page using state
         navigate("/add-problem", { state: { userDetails: formData } });
       } else {
         alert(result.message || "Invalid OTP");
@@ -67,7 +66,32 @@ export default function Verification() {
   return (
     <div className="min-h-screen bg-[#F5F9FA] flex items-center justify-center px-6 py-12 relative">
       <div className="w-full max-w-5xl bg-white rounded-2xl shadow-sm p-10 border border-gray-100">
-        <h2 className="text-2xl font-semibold text-[#023347] mb-8">Verification</h2>
+
+        {/* Header row: title left, back button right */}
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-semibold text-[#023347]">Verification</h2>
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 bg-[#023347] text-white px-6 py-2 rounded-xl text-xs font-bold shadow-sm
+              transition-all duration-300 ease-out
+              hover:bg-[#388E9C] hover:shadow-lg hover:scale-105 active:scale-95"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-3.5 h-3.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M19 12H5M5 12l7 7M5 12l7-7" />
+            </svg>
+            Back
+          </button>
+        </div>
+
         <form onSubmit={handleVerifyRequest}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
