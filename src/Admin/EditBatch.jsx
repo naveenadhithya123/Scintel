@@ -35,7 +35,26 @@ export default function EditBatch() {
     }
   }, [location, navigate]);
 
-  const handleSaveAll = async () => {
+  // Handle removing a single member from the database
+  const handleRemoveMember = async (regNum) => {
+    if (!window.confirm("Are you sure you want to remove this member?")) return;
+    try {
+      const res = await fetch(`http://localhost:3000/api/admin/association-members/${regNum}`, { 
+        method: "DELETE" 
+      });
+      if (res.ok) {
+        setMembers(members.filter(m => m.register_number !== regNum));
+      } else {
+        alert("Failed to delete member from server.");
+      }
+    } catch (err) { 
+      console.error(err);
+      alert("Delete failed due to network error"); 
+    }
+  };
+
+  // Save changes to Batch Info only
+  const handleSaveBatch = async () => {
     if (!batchYear || !title) {
       alert("Batch Year and Title are required.");
       return;
@@ -49,7 +68,8 @@ export default function EditBatch() {
       formData.append("existing_image_url", existingImageUrl);
       if (newImageFile) formData.append("image", newImageFile);
 
-      const batchRes = await fetch(`http://localhost:3000/api/admin/association-batch/${originalYear}`, {
+      // Using batchId for the update
+      const res = await fetch(`http://localhost:3000/api/admin/association-batch/${batchId}`, {
         method: "PUT",
         body: formData,
       });
@@ -236,10 +256,17 @@ export default function EditBatch() {
             disabled={loading}
             className="h-11 px-8 bg-[#023347] text-white rounded-xl text-sm font-semibold shadow-md hover:shadow-lg hover:bg-[#2A8E9E] transition-all transform hover:-translate-y-0.5"
           >
-            {loading ? "Saving..." : "Update Everything"}
+            {loading ? "Saving..." : "Save Batch Changes"}
           </button>
         </div>
       </div>
     </AdminSidebar>
   );
 }
+
+// ── Styles ──
+const labelStyle = { display: "block", fontWeight: "600", fontSize: "14px", marginBottom: "5px", color: "#4b5563" };
+const inputStyle = { width: "100%", padding: "10px", marginBottom: "15px", borderRadius: "6px", border: "1px solid #ccc", fontSize: "14px", outlineColor: "#3DA6B6" };
+const tdStyle = { padding: "14px 16px", textAlign: "left", fontSize: "14px", color: "#374151" };
+const actionBtnStyle = { background: "none", border: "none", color: "#083A4B", fontWeight: "600", cursor: "pointer", marginRight: "15px", fontSize: "14px" };
+const saveBtnStyle = { background: "#083A4B", color: "#fff", padding: "12px 35px", border: "none", borderRadius: 8, fontWeight: "600", cursor: "pointer", transition: "opacity 0.2s" };
