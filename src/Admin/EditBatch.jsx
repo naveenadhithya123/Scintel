@@ -93,11 +93,6 @@ export default function EditBatch() {
     }
   };
 
-  const handleRemoveMember = (index) => {
-    if (!window.confirm("Remove this member?")) return;
-    setMembers(prev => prev.filter((_, i) => i !== index));
-  };
-
   const handleAddMember = () => {
     setMembers(prev => [...prev, { name: "", register_number: "", role: "", year: "" }]);
     setEditingIndex(members.length);
