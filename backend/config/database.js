@@ -1,7 +1,13 @@
 import { Sequelize } from "sequelize";
 
+const databaseUrl = process.env.DATABASE_URL;
+
+if (!databaseUrl) {
+  throw new Error("Missing DATABASE_URL environment variable");
+}
+
 const sequelize = new Sequelize(
-  "postgresql://postgres.zxwbhlrhwachhowwdokm:7Mar@Kathir@aws-1-ap-south-1.pooler.supabase.com:6543/postgres",
+  databaseUrl,
   {
     dialect: "postgres",
     dialectOptions: {

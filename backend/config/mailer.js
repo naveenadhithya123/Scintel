@@ -1,10 +1,16 @@
 import nodemailer from "nodemailer";
 
+const { user, pass } = process.env;
+
+if (!user || !pass) {
+  throw new Error("Missing mail environment variables");
+}
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "lap100gbfree@gmail.com",
-    pass: "ehjh nmfh odsb shco"
+    user,
+    pass
   }
 });
 
