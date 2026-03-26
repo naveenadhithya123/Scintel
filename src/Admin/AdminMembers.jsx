@@ -12,7 +12,7 @@ export default function AdminMembers() {
 
   const fetchBatches = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/association-batches");
+      const res = await fetch("https://scintel-4.onrender.com/api/association-batches");
       const data = await res.json();
       setBatches(data);
       if (data.length > 0 && !selectedBatchYear) {
@@ -27,7 +27,7 @@ export default function AdminMembers() {
   const fetchBatchDetails = async (year) => {
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:3000/api/association-batch/${year}`);
+      const res = await fetch(`https://scintel-4.onrender.com/api/association-batch/${year}`);
       const data = await res.json();
       setBatchDetails(data);
     } catch (err) {

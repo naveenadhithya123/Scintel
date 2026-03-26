@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import AdminSidebar from "./AdminSidebar";
 
-const API_BASE_URL = "http://localhost:3000/api/admin/glories";
+const API_BASE_URL = "https://scintel-4.onrender.com/api/admin/glories";
 
 const STYLES = `
   .gl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }

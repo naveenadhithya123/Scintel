@@ -30,7 +30,7 @@ export default function AddMember() {
 
     setIsSubmitting(true);
     try {
-      const res = await fetch("http://localhost:3000/api/admin/association-members", {
+      const res = await fetch("https://scintel-4.onrender.com/api/admin/association-members", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

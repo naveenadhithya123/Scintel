@@ -10,7 +10,7 @@ function EventRegister() {
   useEffect(() => {
     const fetchEventDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/upcoming-events/${id}`);
+        const response = await fetch(`https://scintel-4.onrender.com/api/upcoming-events/${id}`);
         const data = await response.json();
         setEvent(data);
       } catch (error) {

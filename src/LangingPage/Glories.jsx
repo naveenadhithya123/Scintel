@@ -13,7 +13,7 @@ function Glories() {
   useEffect(() => {
     const fetchGlories = async () => {
       try {
-        const API_URL = "http://localhost:3000/api/glories";
+        const API_URL = "https://scintel-4.onrender.com/api/glories";
         const response = await fetch(API_URL);
         const data = await response.json();
         setGlories(data);

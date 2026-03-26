@@ -52,7 +52,7 @@ export default function EditMember() {
 
     setIsSaving(true);
     try {
-      const res = await fetch(`http://localhost:3000/api/admin/association-members/${form.register_number}`, {
+      const res = await fetch(`https://scintel-4.onrender.com/api/admin/association-members/${form.register_number}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

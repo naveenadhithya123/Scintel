@@ -14,7 +14,7 @@ export default function UpcomingEvents() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/upcoming-events");
+        const response = await fetch("https://scintel-4.onrender.com/api/upcoming-events");
         if (!response.ok) throw new Error("Network response was not ok");
         const data = await response.json();
         setEvents(data);

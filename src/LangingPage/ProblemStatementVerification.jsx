@@ -23,7 +23,7 @@ export default function Verification() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:3000/api/send-otp", {
+      const response = await fetch("https://scintel-4.onrender.com/api/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: formData.email }),
@@ -61,7 +61,7 @@ export default function Verification() {
     const otpValue = inputs.current.map(input => input.value).join("");
     
     try {
-      const response = await fetch("http://localhost:3000/api/verify-otp", {
+      const response = await fetch("https://scintel-4.onrender.com/api/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: formData.email, otp: otpValue }),

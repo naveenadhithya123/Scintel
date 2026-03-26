@@ -10,7 +10,7 @@ export default function ActivitiesAdmin() {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:3000/api/activities');
+      const response = await fetch('https://scintel-4.onrender.com/api/activities');
       const data = await response.json();
       const result = data.data || data; 
       const mappedData = result.map((item, index) => ({
@@ -33,7 +33,7 @@ export default function ActivitiesAdmin() {
   const handleDelete = async (year) => {
     if (!window.confirm(`Are you sure you want to delete all activities for ${year}?`)) return;
     try {
-      const response = await fetch(`http://localhost:3000/api/activities/${year}`, {
+      const response = await fetch(`https://scintel-4.onrender.com/api/activities/${year}`, {
         method: "DELETE",
       });
       if (response.ok) {

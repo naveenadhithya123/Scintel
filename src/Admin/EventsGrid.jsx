@@ -92,7 +92,7 @@ export default function EventsGrid() {
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:3000/api/admin/activities/${year}`);
+      const response = await fetch(`https://scintel-4.onrender.com/api/admin/activities/${year}`);
       const result = await response.json();
       if (result.success && Array.isArray(result.data)) {
         const formattedEvents = result.data.map(item => {
@@ -120,7 +120,7 @@ export default function EventsGrid() {
 
   const handleDeleteConfirm = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/admin/activities/${deleteId}`, {
+      const response = await fetch(`https://scintel-4.onrender.com/api/admin/activities/${deleteId}`, {
         method: 'DELETE'
       });
       if (response.ok) {

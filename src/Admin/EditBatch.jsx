@@ -49,14 +49,14 @@ export default function EditBatch() {
       formData.append("existing_image_url", existingImageUrl);
       if (newImageFile) formData.append("image", newImageFile);
 
-      const batchRes = await fetch(`http://localhost:3000/api/admin/association-batch/${originalYear}`, {
+      const batchRes = await fetch(`https://scintel-4.onrender.com/api/admin/association-batch/${originalYear}`, {
         method: "PUT",
         body: formData,
       });
       if (!batchRes.ok) throw new Error("Failed to update batch info");
 
       const memberPromises = members.map(m => 
-        fetch(`http://localhost:3000/api/admin/association-members/${m.register_number}`, {
+        fetch(`https://scintel-4.onrender.com/api/admin/association-members/${m.register_number}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ name: m.name, role: m.role, year: m.year, batch_year: batchYear })

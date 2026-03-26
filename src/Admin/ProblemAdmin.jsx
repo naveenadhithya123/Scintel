@@ -25,7 +25,7 @@ const ProblemAdmin = () => {
   const fetchProblems = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:3000/api/admin/current-problems");
+      const res = await fetch("https://scintel-4.onrender.com/api/admin/current-problems");
       const result = await res.json();
       setProblemData(result.data || []);
     } catch (err) { console.error(err); } finally { setLoading(false); }
@@ -34,7 +34,7 @@ const ProblemAdmin = () => {
   const fetchProblemRequests = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:3000/api/admin/problem-requests");
+      const res = await fetch("https://scintel-4.onrender.com/api/admin/problem-requests");
       const result = await res.json();
       setRequestData(result.data || []);
     } catch (err) { console.error(err); } finally { setLoading(false); }
@@ -43,7 +43,7 @@ const ProblemAdmin = () => {
   const fetchLockRequests = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:3000/api/admin/problem-solver-requests");
+      const res = await fetch("https://scintel-4.onrender.com/api/admin/problem-solver-requests");
       const result = await res.json();
       setLockRequestData(result.data || []);
     } catch (err) { console.error(err); } finally { setLoading(false); }
@@ -51,9 +51,9 @@ const ProblemAdmin = () => {
 
   const handleViewDetail = async (id, type) => {
     let url = "";
-    if (type === 'problem') url = `http://localhost:3000/api/admin/current-problems/${id}`;
-    if (type === 'request') url = `http://localhost:3000/api/admin/problem-requests/${id}`;
-    if (type === 'lock') url = `http://localhost:3000/api/admin/problem-solver-requests/${id}`;
+    if (type === 'problem') url = `https://scintel-4.onrender.com/api/admin/current-problems/${id}`;
+    if (type === 'request') url = `https://scintel-4.onrender.com/api/admin/problem-requests/${id}`;
+    if (type === 'lock') url = `https://scintel-4.onrender.com/api/admin/problem-solver-requests/${id}`;
 
     try {
       setLoading(true);
@@ -67,7 +67,7 @@ const ProblemAdmin = () => {
     if (!window.confirm("Are you sure you want to proceed with this action?")) return;
     try {
       setLoading(true);
-      const res = await fetch(`http://localhost:3000/api/admin/${endpoint}`, { method });
+      const res = await fetch(`https://scintel-4.onrender.com/api/admin/${endpoint}`, { method });
       const result = await res.json();
       if (res.ok) {
         alert(successMsg);

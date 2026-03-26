@@ -47,7 +47,7 @@ export default function SuggesstionVerification() {
 
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3000/api/send-otp", {
+      const response = await fetch("https://scintel-4.onrender.com/api/send-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: formData.email }),
@@ -93,7 +93,7 @@ export default function SuggesstionVerification() {
     setLoading(true);
     try {
       // Step 1: Verify the OTP
-      const verifyRes = await fetch("http://localhost:3000/api/verify-otp", {
+      const verifyRes = await fetch("https://scintel-4.onrender.com/api/verify-otp", {
         method: "POST", 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: formData.email, otp: otpValue }),
@@ -121,7 +121,7 @@ export default function SuggesstionVerification() {
         }
 
         // Step 3: Final Submit to Database
-        const saveRes = await fetch("http://localhost:3000/api/add-suggestion", {
+        const saveRes = await fetch("https://scintel-4.onrender.com/api/add-suggestion", {
           method: "POST",
           // NOTE: Do NOT set Content-Type header manually for FormData
           body: finalPayload, 

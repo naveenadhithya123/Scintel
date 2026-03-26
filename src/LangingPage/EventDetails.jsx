@@ -11,7 +11,7 @@ const EventDetails = () => {
       try {
         setLoading(true);
         // Using your localhost API structure
-        const response = await fetch(`http://localhost:3000/api/activities/event/${id}`);
+        const response = await fetch(`https://scintel-4.onrender.com/api/activities/event/${id}`);
         const data = await response.json();
         setEventData(data);
       } catch (error) {

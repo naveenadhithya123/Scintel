@@ -14,7 +14,7 @@ function Activities() {
     const fetchBatchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:3000/api/activities/batch/${batch}`);
+        const response = await fetch(`https://scintel-4.onrender.com/api/activities/batch/${batch}`);
         const data = await response.json();
         setActivities(data);
       } catch (error) {

@@ -14,7 +14,7 @@ export default function ProblemDetails() {
     const fetchDetail = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:3000/api/current-problem/${id}`);
+        const response = await fetch(`https://scintel-4.onrender.com/api/current-problem/${id}`);
         const data = await response.json();
         setProblem(data);
         window.scrollTo(0, 0);

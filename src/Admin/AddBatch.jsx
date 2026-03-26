@@ -65,7 +65,7 @@ export default function AddBatch() {
       }
 
       // 2. Call Add Batch API
-      const batchResponse = await fetch("http://localhost:3000/api/admin/association-batch", {
+      const batchResponse = await fetch("https://scintel-4.onrender.com/api/admin/association-batch", {
         method: "POST",
         body: formData, // Browser automatically sets Content-Type for FormData
       });
@@ -77,7 +77,7 @@ export default function AddBatch() {
 
       // 3. Call Add Members API for each member in the list
       const memberPromises = members.map((m) =>
-        fetch("http://localhost:3000/api/admin/association-members", {
+        fetch("https://scintel-4.onrender.com/api/admin/association-members", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

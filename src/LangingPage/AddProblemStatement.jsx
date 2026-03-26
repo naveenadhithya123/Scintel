@@ -42,7 +42,7 @@ export default function AddProblemStatement() {
     };
 
     try {
-      const response = await fetch("http://localhost:3000/api/problem-creation-request", {
+      const response = await fetch("https://scintel-4.onrender.com/api/problem-creation-request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

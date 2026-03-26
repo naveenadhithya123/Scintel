@@ -127,7 +127,7 @@ export function EditEvent() {
   useEffect(() => {
     const fetchEventData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/admin/activity/${id}`);
+        const response = await fetch(`https://scintel-4.onrender.com/api/admin/activity/${id}`);
         const data = await response.json();
 
         if (response.ok) {
@@ -208,7 +208,7 @@ export function EditEvent() {
     formData.append('existing_event_images', existingImgs.join(','));
 
     try {
-      const response = await fetch(`http://localhost:3000/api/admin/activity/${id}`, {
+      const response = await fetch(`https://scintel-4.onrender.com/api/admin/activity/${id}`, {
         method: 'PUT',
         body: formData, // No Content-Type header needed, browser sets it for FormData
       });

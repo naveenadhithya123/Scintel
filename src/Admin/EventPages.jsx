@@ -149,7 +149,7 @@ export function EditEvent() {
   useEffect(() => {
     const fetchEventData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/admin/activity/${id}`);
+        const response = await fetch(`https://scintel-4.onrender.com/api/admin/activity/${id}`);
         const result = await response.json();
         const data = result.data || result;
         
@@ -230,7 +230,7 @@ export function EditEvent() {
     else formData.append('existing_winner_image', formState.winnerImage || "");
 
     try {
-      const response = await fetch(`http://localhost:3000/api/admin/activity/${id}`, { 
+      const response = await fetch(`https://scintel-4.onrender.com/api/admin/activity/${id}`, { 
         method: 'PUT', 
         body: formData 
       });
@@ -285,7 +285,7 @@ export function AddEvent() {
     formState.eventImages.forEach(img => { if (img) formData.append('event_images', img); });
 
     try {
-      const response = await fetch(`http://localhost:3000/api/admin/activity`, { method: 'POST', body: formData });
+      const response = await fetch(`https://scintel-4.onrender.com/api/admin/activity`, { method: 'POST', body: formData });
       if (response.ok) { alert("Added!"); navigate(`/admin/activities/${year}`); }
     } catch (err) { alert("Failed to add."); }
   };
@@ -339,7 +339,7 @@ export function AddNewYear() {
     formState.eventImages.forEach(img => { if (img) formData.append('event_images', img); });
 
     try {
-      const response = await fetch(`http://localhost:3000/api/admin/activity`, { method: 'POST', body: formData });
+      const response = await fetch(`https://scintel-4.onrender.com/api/admin/activity`, { method: 'POST', body: formData });
       if (response.ok) { alert("New Year Added!"); navigate(`/admin/activities/${batch}`); }
     } catch (err) { console.error(err); }
   };

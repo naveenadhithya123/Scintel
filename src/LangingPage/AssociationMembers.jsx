@@ -19,7 +19,7 @@ export default function AssociationMembers() {
   useEffect(() => {
     const fetchBatches = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/association-batches");
+        const response = await fetch("https://scintel-4.onrender.com/api/association-batches");
         const data = await response.json();
         setBatches(data);
         if (data.length > 0) {
@@ -39,7 +39,7 @@ export default function AssociationMembers() {
       if (!activeTab) return;
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:3000/api/association-batch/${activeTab}`);
+        const response = await fetch(`https://scintel-4.onrender.com/api/association-batch/${activeTab}`);
         const data = await response.json();
         setBatchDetails(data);
       } catch (error) {

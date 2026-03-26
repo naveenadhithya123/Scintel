@@ -106,7 +106,7 @@ export default function SuggestionAdmin() {
   const fetchSuggestions = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3000/api/admin/suggestions");
+      const response = await fetch("https://scintel-4.onrender.com/api/admin/suggestions");
       const result = await response.json();
       setSuggestionList(result.data || []);
     } catch (error) {
@@ -118,7 +118,7 @@ export default function SuggestionAdmin() {
 
   const fetchAckSuggestions = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/admin/suggestions/acknowledge");
+      const response = await fetch("https://scintel-4.onrender.com/api/admin/suggestions/acknowledge");
       const result = await response.json();
       setAckList([...DUMMY_ACK, ...(result.data || [])]);
     } catch (error) {
@@ -129,7 +129,7 @@ export default function SuggestionAdmin() {
   const fetchRejected = async () => {
     try {
       setHistoryLoading(true);
-      const response = await fetch("http://localhost:3000/api/admin/suggestions/rejected");
+      const response = await fetch("https://scintel-4.onrender.com/api/admin/suggestions/rejected");
       const result = await response.json();
       setRejectedList([...DUMMY_REJECTED, ...(result.data || [])]);
     } catch (error) {
@@ -142,7 +142,7 @@ export default function SuggestionAdmin() {
   const fetchResolved = async () => {
     try {
       setHistoryLoading(true);
-      const response = await fetch("http://localhost:3000/api/admin/suggestions/resolved");
+      const response = await fetch("https://scintel-4.onrender.com/api/admin/suggestions/resolved");
       const result = await response.json();
       setResolvedList([...DUMMY_RESOLVED, ...(result.data || [])]);
     } catch (error) {
@@ -163,7 +163,7 @@ export default function SuggestionAdmin() {
     }
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:3000/api/admin/suggestions/${id}`);
+      const response = await fetch(`https://scintel-4.onrender.com/api/admin/suggestions/${id}`);
       const result = await response.json();
       setSelectedItem(result.data);
       setPrevView(from);
@@ -200,7 +200,7 @@ export default function SuggestionAdmin() {
       window.location.href = mailtoLink;
 
       await fetch(
-        `http://localhost:3000/api/admin/suggestions/${deleteTargetId}`,
+        `https://scintel-4.onrender.com/api/admin/suggestions/${deleteTargetId}`,
         { method: "DELETE" }
       );
 
@@ -239,7 +239,7 @@ export default function SuggestionAdmin() {
     try {
       setLoading(true);
       const response = await fetch(
-        `http://localhost:3000/api/admin/suggestions/acknowledge/${id}`,
+        `https://scintel-4.onrender.com/api/admin/suggestions/acknowledge/${id}`,
         { method: "POST" }
       );
       const result = await response.json();
@@ -261,7 +261,7 @@ export default function SuggestionAdmin() {
     try {
       setLoading(true);
       const response = await fetch(
-        "http://localhost:3000/api/admin/suggestions/accept-mail",
+        "https://scintel-4.onrender.com/api/admin/suggestions/accept-mail",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
