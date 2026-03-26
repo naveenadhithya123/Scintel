@@ -49,7 +49,7 @@ export const acceptProblemCreationRequest = async (req, res) => {
     // ============================
 
     await transporter.sendMail({
-      from: '"Scintel Team" <yourrealemail@gmail.com>',
+      from: '"Scintel Team" <lap100gbfree@gmail.com>',
       to: email,
       subject: "Problem Request Approved - Scintel",
       html: `

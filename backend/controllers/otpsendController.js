@@ -20,7 +20,7 @@ export const sendOtp = async (req, res) => {
         };
 
 await transporter.sendMail({
-    from: '"Scintel Verification" <yourrealemail@gmail.com>',
+    from: '"Scintel Verification" <lap100gbfree@gmail.com>',
     to: email,
     subject: "Scintel OTP Verification",
     html: `

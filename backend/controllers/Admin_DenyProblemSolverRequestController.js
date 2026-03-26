@@ -35,7 +35,7 @@ export const denyProblemSolverRequest = async (req, res) => {
     // ============================
 
     await transporter.sendMail({
-      from: '"Scintel Team" <yourrealemail@gmail.com>',
+      from: '"Scintel Team" <lap100gbfree@gmail.com>',
       to: email,
       subject: "Problem Solver Request Update",
       html: `
