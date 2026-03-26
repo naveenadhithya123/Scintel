@@ -1,4 +1,4 @@
-const BREVO_API_KEY = "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";
+const BREVO_API_KEY = "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";
 
 const parseSender = (from) => {
   const match = from?.match(/"?(.*?)"?\s*<([^>]+)>/);
