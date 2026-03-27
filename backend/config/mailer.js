@@ -1,4 +1,10 @@
-const BREVO_API_KEY = "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";
+const BREVO_API_KEY = process.env.BREVO_API_KEY;
+const BREVO_SENDER_EMAIL = process.env.BREVO_SENDER_EMAIL || "lap100gbfree@gmail.com";
+const BREVO_SENDER_NAME = process.env.BREVO_SENDER_NAME || "Scintel";
+
+if (!BREVO_API_KEY) {
+  throw new Error("Missing BREVO_API_KEY environment variable");
+}
 
 const parseSender = (from) => {
   const match = from?.match(/"?(.*?)"?\s*<([^>]+)>/);
@@ -11,8 +17,8 @@ const parseSender = (from) => {
   }
 
   return {
-    name: "Scintel",
-    email: from || "lap100gbfree@gmail.com"
+    name: BREVO_SENDER_NAME,
+    email: from || BREVO_SENDER_EMAIL
   };
 };
 
